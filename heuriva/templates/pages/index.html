@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Heuriva - Auditoria Automatizada de Interface{% endblock %}
+
+{% block content %}
+<nav class="fixed w-full z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="{% url 'pages:index' %}" class="flex items-center">
+                <img src="{% static 'assets/logo-dark.svg' %}" alt="Heuriva" class="w-[220px] logo-dark" />
+                <img src="{% static 'assets/logo-light.svg' %}" alt="Heuriva" class="w-[220px] logo-light" />
+            </a>
+            <div class="hidden md:flex space-x-8 items-center">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'analysis:project_list' %}" class="text-sm font-medium text-muted-light dark:text-muted-dark hover:text-primary transition-colors">Dashboard</a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="text-sm font-medium text-muted-light dark:text-muted-dark hover:text-primary transition-colors">Entrar</a>
+                    <a href="{% url 'accounts:signup' %}" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors">
+                        Começar
+                    </a>
+                {% endif %}
+                <button aria-label="Alternar tema" class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer  hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none" id="theme-toggle">
+                    <span id="theme-toggle-dark-icon" class="material-icons-outlined leading-none" style="font-size:18px">dark_mode</span>
+                    <span id="theme-toggle-light-icon" class="material-icons-outlined leading-none" style="font-size:18px">light_mode</span>
+                </button>
+            </div>
+            <!-- Mobile -->
+            <div class="md:hidden flex items-center gap-3">
+                <button id="theme-toggle" aria-label="Alternar tema" class="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none">
+                    <span id="theme-toggle-dark-icon" class="material-icons-outlined leading-none" style="font-size:18px">dark_mode</span>
+                    <span id="theme-toggle-light-icon" class="material-icons-outlined leading-none" style="font-size:18px">light_mode</span>
+                </button>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'analysis:project_list' %}" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-3 py-1.5 rounded-lg text-sm font-medium">App</a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-3 py-1.5 rounded-lg text-sm font-medium">Entrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="pt-28 pb-16 lg:pt-28 lg:pb-18 px-4 overflow-hidden relative">
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+        <!-- Logo hero -->
+        <div class="flex justify-center mb-10">
+            <div class="relative group cursor-pointer inline-flex">
+                <img src="{% static 'assets/symbol-dark.svg' %}" alt="Heuriva Symbol" class="w-24 h-24 logo-dark group-hover:scale-105 transition-transform duration-300" />
+                <img src="{% static 'assets/symbol-light.svg' %}" alt="Heuriva Symbol" class="w-24 h-24 logo-light group-hover:scale-105 transition-transform duration-300" />
+            </div>
+        </div>
+        <h1 class="font-sans text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-gray-900 dark:text-white mb-6 leading-tight">
+            Auditoria de interface <br/> <span class="text-muted-light dark:text-muted-dark italic">automatizada por IA.</span>
+        </h1>
+        <p class="text-lg md:text-xl text-muted-light dark:text-muted-dark max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+            O Heuriva usa LLMs multimodais para analisar interfaces web, correlacionando código HTML e capturas visuais para identificar problemas de usabilidade e acessibilidade.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+            <a href="{% url 'accounts:signup' %}" class="w-full sm:w-auto px-8 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg shadow-md transition-colors flex items-center justify-center gap-2">
+                Começar gratuitamente
+                <span class="material-icons-outlined" style="font-size:18px">arrow_forward</span>
+            </a>
+            <a href="#how-it-works" class="w-full sm:w-auto px-8 py-3 bg-surface-light dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-900 dark:text-white font-medium rounded-lg border border-border-light dark:border-border-dark transition-colors flex items-center justify-center">
+                Saiba mais
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="how-it-works" class="py-20 bg-surface-light dark:bg-surface-dark border-y border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-16 text-center max-w-3xl mx-auto">
+            <h2 class="font-sans text-3xl md:text-4xl font-light text-gray-900 dark:text-white mb-4">O Pipeline de Análise</h2>
+            <p class="text-muted-light dark:text-muted-dark font-light text-lg">Um revisor automatizado e incansável que disseca sua interface camada por camada.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+            <div class="hidden md:block absolute top-10 left-[16%] right-[16%] border-t border-dashed border-gray-300 dark:border-gray-700 z-0"></div>
+            
+            <div class="relative z-10 group">
+                <div class="w-20 h-20 mx-auto bg-background-light dark:bg-background-dark rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary transition-colors">
+                    <span class="material-icons-outlined text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors" style="font-size:36px">travel_explore</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans font-semibold text-base text-gray-900 dark:text-white mb-2">1. Captura e Extração</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+                        O crawler percorre as páginas, capturando screenshots de alta resolução e extraindo a estrutura do HTML para análise.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative z-10 group">
+                <div class="w-20 h-20 mx-auto bg-background-light dark:bg-background-dark rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary transition-colors">
+                    <span class="material-icons-outlined text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors" style="font-size:36px">psychology</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans font-semibold text-base text-gray-900 dark:text-white mb-2">2. Síntese Multimodal</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+                        LLMs de visão correlacionam o visual com o código para identificar inconsistências, falhas de acessibilidade e antipadrões de design.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative z-10 group">
+                <div class="w-20 h-20 mx-auto bg-background-light dark:bg-background-dark rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center mb-6 shadow-sm group-hover:border-primary transition-colors">
+                    <span class="material-icons-outlined text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors" style="font-size:36px">summarize</span>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-sans font-semibold text-base text-gray-900 dark:text-white mb-2">3. Relatório de Auditoria</h3>
+                    <p class="text-sm text-muted-light dark:text-muted-dark leading-relaxed">
+                        Obtenha um relatório detalhado por página, com avaliações de severidade e recomendações concretas de melhoria.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 pt-12 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-10">
+            <div>
+                <a href="{% url 'pages:index' %}" class="inline-flex items-center mb-3">
+                    <img src="{% static 'assets/logo-dark.svg' %}" alt="Heuriva" class="w-42 logo-dark" />
+                    <img src="{% static 'assets/logo-light.svg' %}" alt="Heuriva" class="w-42 logo-light" />
+                </a>
+                <p class="text-sm text-muted-light dark:text-muted-dark max-w-xs">
+                    Auditoria de Interface e UX.
+                </p>
+            </div>
+            <div class="flex gap-8 text-sm text-muted-light dark:text-muted-dark">
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white uppercase tracking-wider text-xs mb-3">Projeto</h4>
+                    <ul class="space-y-2">
+                        <li><a class="hover:text-primary transition-colors" href="https://github.com/gabrieldamota/heuriva" target="_blank">GitHub</a></li>
+                        <li><span>Licença MIT</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-200 dark:border-gray-800 pt-6">
+            <p class="text-xs text-gray-400 dark:text-gray-600 text-center">
+                © {% now "Y" %} Heuriva.
+            </p>
+        </div>
+    </div>
+</footer>
+{% endblock content %}

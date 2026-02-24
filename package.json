@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./heuriva/tailwind/input.css -o ./heuriva/static/css/styles.css --watch",
+    "build": "npx @tailwindcss/cli -i ./heuriva/tailwind/input.css -o ./heuriva/static/css/styles.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.16",
+    "flowbite": "^3.1.2",
+    "tailwindcss": "^4.1.16"
+  }
+}

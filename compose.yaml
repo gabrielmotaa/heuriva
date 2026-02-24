@@ -1,0 +1,77 @@
+services:
+  db:
+    image: postgres:18
+    volumes:
+      - pgdata:/var/lib/postgresql/18/data
+    environment:
+      POSTGRES_DB: heuriva_dev
+      POSTGRES_USER: heuriva
+      POSTGRES_PASSWORD: heuriva
+
+  web:
+    build: .
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    volumes:
+      - media:/app/media
+    depends_on:
+      - db
+      - tailwind
+    environment:
+      SQL_HOST: db
+      SQL_PORT: 5432
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./uv.lock
+  
+  worker:
+    build: .
+    entrypoint: []
+    command: ["celery", "-A", "heuriva", "worker", "--loglevel=info"]
+    env_file:
+      - .env
+    volumes:
+      - media:/app/media
+    depends_on:
+      - db
+      - web
+      - redis
+    environment:
+      SQL_HOST: db
+      SQL_PORT: 5432
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./uv.lock
+  
+  redis:
+    image: redis:8-alpine
+
+  tailwind:
+    build:
+      context: .
+      dockerfile: Dockerfile.tailwind
+    tty: true
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./heuriva:/app/heuriva
+
+volumes:
+  pgdata:
+  media:

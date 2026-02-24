@@ -1,0 +1,54 @@
+# Python
+**/__pycache__
+**/*.py[cod]
+**/*$py.class
+**/.venv
+.venv
+*.egg-info
+dist/
+build/
+*.sqlite3
+
+# IDE
+**/.vscode
+**/.idea
+**/.vs
+**/.project
+**/.settings
+**/.classpath
+**/.toolstarget
+
+# Git
+**/.git
+**/.gitignore
+**/.gitattributes
+
+# Docker
+**/.dockerignore
+**/docker-compose*
+**/compose*
+**/Dockerfile*
+
+# Node
+**/node_modules
+**/npm-debug.log
+# package-lock.json is needed for production build
+
+# Environment & secrets
+**/.env
+**/.env.*
+**/secrets.dev.yaml
+**/values.dev.yaml
+
+# Build artifacts
+**/staticfiles
+**/media
+**/*.log
+.ruff_cache
+**/.pytest_cache
+**/.coverage
+
+# Documentation (não necessário na imagem)
+LICENSE
+README.md
+.github/

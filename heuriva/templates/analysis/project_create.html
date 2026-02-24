@@ -1,0 +1,72 @@
+{% extends "analysis/base_app.html" %}
+
+{% load static %}
+
+{% block title %}Novo Projeto - Heuriva{% endblock %}
+
+{% block app_content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{% url 'analysis:project_list' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white">
+                    Projetos
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Novo projeto</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Criar novo projeto</h1>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Adicione um novo website para análise de privacidade</p>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Project Name -->
+            <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do projeto <span class="text-red-600">*</span></label>
+                <input type="text" id="name" name="name" required 
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                       placeholder="Meu Website">
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Um nome descritivo para identificar seu projeto</p>
+            </div>
+
+            <!-- Project URL -->
+            <div>
+                <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL <span class="text-red-600">*</span></label>
+                <input type="url" id="url" name="url" required 
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                       placeholder="https://meuwebsite.com.br">
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">A URL completa do website que será analisado</p>
+            </div>
+
+            <!-- Screenshot Upload (Partial) -->
+            {% include "analysis/partials/screenshot_upload.html" %}
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <a href="{% url 'analysis:project_list' %}" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                    Cancelar
+                </a>
+                <button type="submit" class="cursor-pointer text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    Criar projeto
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

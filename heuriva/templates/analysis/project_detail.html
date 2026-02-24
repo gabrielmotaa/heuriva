@@ -1,0 +1,167 @@
+{% extends "analysis/base_app.html" %}
+
+{% load static %}
+
+{% block title %}{{ project.name }} - Heuriva{% endblock %}
+
+{% block app_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{% url 'analysis:project_list' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                    </svg>
+                    Projetos
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">{{ project.name }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Project Header -->
+    <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 mb-8 shadow-sm">
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <!-- Project Info -->
+            <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-12 h-12 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-100 dark:border-gray-700">
+                        <span class="material-icons-outlined text-gray-400 text-2xl">web</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ project.name }}</h1>
+                        <a href="{{ project.url }}" target="_blank" class="text-sm text-primary dark:text-blue-400 hover:underline inline-flex items-center gap-1">
+                            {{ project.url }}
+                            <span class="material-icons-outlined text-[14px]">open_in_new</span>
+                        </a>
+                    </div>
+                </div>
+                
+                {% if last_completed_analysis %}
+                    <div class="mt-6 flex flex-wrap items-center gap-6 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800">
+                        <div>
+                            <p class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Nota da última análise</p>
+                            <p class="text-3xl font-light text-gray-900 dark:text-white">{{ last_completed_analysis.score }}<span class="text-lg text-gray-400">/100</span></p>
+                        </div>
+                        <div class="hidden sm:block w-px h-12 bg-gray-200 dark:bg-gray-700"></div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Data</p>
+                            <p class="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-1.5">
+                                <span class="material-icons-outlined text-[16px] text-gray-400">calendar_today</span>
+                                {{ last_completed_analysis.created_at|date:"d M Y, H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Screenshot Preview -->
+            {% if project.homepage_screenshot %}
+            <div class="lg:w-80 shrink-0">
+                <div class="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm relative group">
+                    <img src="{{ project.homepage_screenshot.url }}" 
+                         alt="Screenshot de {{ project.name }}" 
+                         class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 flex flex-wrap gap-3">
+            {% if project.analyses.exists %}
+                <a href="{% url 'analysis:analysis_create' project.short_id %}" type="button" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                    <span class="material-icons-outlined text-[18px]">add</span>
+                    Nova análise
+                </a>
+            {% endif %}
+            
+            <a href="{% url 'analysis:project_update' project.short_id %}" type="button" class="inline-flex items-center justify-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                <span class="material-icons-outlined text-[18px]">settings</span>
+                Configurações
+            </a>
+        </div>
+    </div>
+
+    <!-- Analyses List -->
+    <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
+        <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Análises Realizadas</h2>
+        </div>
+
+        {% if project.analyses.exists %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-800/50 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 font-medium">#</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Criada em</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Páginas</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Analisadas</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Nota</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Status</th>
+                        <th scope="col" class="px-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                    {% for analysis in analyses_page %}
+                    <tr class="bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors cursor-pointer group" onclick="window.location='{% url 'analysis:analysis_detail' analysis.short_id %}'">
+                        <td class="px-6 py-4 font-mono text-xs text-gray-900 dark:text-white">{{ analysis.sequence_number }}</td>
+                        <td class="px-6 py-4">
+                            <span class="block text-gray-900 dark:text-white">{{ analysis.created_at|date:"d M Y" }}</span>
+                            <span class="block text-xs text-gray-500">{{ analysis.created_at|time:"H:i" }}</span>
+                        </td>
+                        <td class="px-6 py-4 font-mono text-xs">{{ analysis.get_total_pages }}</td>
+                        <td class="px-6 py-4 font-mono text-xs">{{ analysis.get_evaluated_pages_count }}</td>
+                        <td class="px-6 py-4">
+                            {% if analysis.score %}
+                            <span x-data="{ score: {{ analysis.score }} }"
+                            class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium" 
+                            :class="{
+                                'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400': score >= 8,
+                                'bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400': score >= 5 && score < 8,
+                                'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400': score < 5
+                            }">
+                                {{ analysis.score }}
+                            </span>
+                            {% else %}
+                            <span class="text-gray-400 dark:text-gray-500">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% include "analysis/partials/status_badge.html" with status=analysis.status %}
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <span class="material-icons-outlined text-gray-300 dark:text-gray-600 group-hover:text-primary transition-colors" style="font-size:18px">arrow_forward</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "partials/pagination.html" with page_obj=analyses_page %}
+        {% else %}
+        <div class="p-12 text-center">
+            <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-700 mb-4">analytics</span>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Nenhuma análise ainda</h3>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Comece criando sua primeira análise heurística</p>
+            <div class="mt-6">
+                <a href="{% url 'analysis:analysis_create' project.short_id %}" type="button" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                    <span class="material-icons-outlined text-[18px]">add</span>
+                    Criar primeira análise
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

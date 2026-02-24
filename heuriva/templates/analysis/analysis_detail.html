@@ -1,0 +1,369 @@
+{% extends "analysis/base_app.html" %}
+
+{% load static %}
+
+{% block title %}Análise #{{ analysis.sequence_number }} - {{ analysis.project.name }} - Heuriva{% endblock %}
+
+{% block app_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{% url 'analysis:project_list' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white">
+                    Projetos
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <a href="{% url 'analysis:project_detail' analysis.project.short_id %}" class="ms-1 text-sm font-medium text-gray-700 hover:text-primary-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">{{ analysis.project.name }}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Análise #{{ analysis.sequence_number }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left Column - Analysis Header -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-white mb-1">Análise #{{ analysis.sequence_number }}</h1>
+                <a href="{{ analysis.project.url }}" target="_blank" class="text-sm text-primary dark:text-blue-400 hover:underline inline-flex items-center gap-1 break-all">
+                    {{ analysis.project.url }}
+                    <span class="material-icons-outlined shrink-0" style="font-size:14px">open_in_new</span>
+                </a>
+
+                <div class="mt-5 mb-5 py-4 px-5 bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 rounded-lg text-center">
+                    <p class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Nota</p>
+                    {% if analysis.score %}
+                    <p class="text-4xl font-light text-gray-900 dark:text-white">{{ analysis.score }}<span class="text-xl text-gray-400">/10</span></p>
+                    {% else %}
+                    <p class="text-3xl font-light text-gray-400 dark:text-gray-500">—</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400 mb-5">
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Status</span>
+                        {% include "analysis/partials/status_badge.html" with status=analysis.status %}
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Iniciado em</span>
+                        <span class="text-gray-900 dark:text-white font-medium">{{ analysis.created_at|date:"d M Y" }}</span>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Finalizado em</span>
+                        <span class="text-gray-900 dark:text-white font-medium">{{ analysis.updated_at|date:"d M Y" }}</span>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Páginas coletadas</span>
+                        <span class="text-gray-900 dark:text-white font-mono">{{ analysis.get_total_pages }}</span>
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                        <span class="text-gray-500 dark:text-gray-400">Páginas analisadas</span>
+                        <span class="text-gray-900 dark:text-white font-mono">{{ analysis.get_evaluated_pages_count }}</span>
+                    </div>
+                </div><!-- /space-y-3 -->
+
+                <div class="pt-4 border-t border-gray-200 dark:border-gray-800">
+                    <a href="{% url 'analysis:analysis_create' analysis.project.short_id %}" class="inline-flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-dark text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                        <span class="material-icons-outlined" style="font-size:18px">add</span>
+                        Nova análise
+                    </a>
+                </div>
+            </div>
+
+            {% with home_page=analysis.get_home_page %}
+            {% if home_page.screenshot %}
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center gap-2">
+                    <span class="material-icons-outlined text-gray-400" style="font-size:18px">screenshot_monitor</span>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Screenshot</h3>
+                </div>
+                <div class="aspect-video bg-gray-100 dark:bg-gray-900 overflow-hidden">
+                    <img src="{{ home_page.screenshot.url }}" 
+                         alt="Screenshot da página inicial" 
+                         loading="lazy"
+                         decoding="async"
+                         class="w-full h-full object-cover object-top">
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Right Column - Summary, Priority Issues and Pages -->
+        <div class="lg:col-span-2 space-y-6">
+            <!-- Summary -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-4">Resumo</h2>
+                {% if analysis.executive_summary %}
+                <div class="prose dark:prose-invert max-w-none">
+                    <div class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">{{ analysis.executive_summary }}</div>
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <span class="material-icons-outlined text-gray-300 dark:text-gray-700 mb-3" style="font-size:36px">notes</span>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Resumo será gerado após a análise das páginas</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Priority Issues -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white mb-4">Prioridades</h2>
+                {% if analysis.priorities %}
+                <ul class="space-y-3">
+                    {% for priority in analysis.priorities %}
+                    <li class="flex items-start gap-3">
+                        <span class="shrink-0 inline-flex items-center justify-center w-5 h-5 rounded-full 
+                            {% if forloop.counter <= 3 %}
+                                bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400
+                            {% elif forloop.counter <= 6 %}
+                                bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400
+                            {% else %}
+                                bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400
+                            {% endif %}
+                            text-xs font-semibold mt-0.5">{{ forloop.counter }}</span>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">{{ priority }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="text-center py-8">
+                    <span class="material-icons-outlined text-gray-300 dark:text-gray-700 mb-3" style="font-size:36px">format_list_numbered</span>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Prioridades serão geradas após a análise das páginas</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Evaluated Pages List -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 overflow-visible shadow-sm">
+                <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">Páginas avaliadas</h2>
+                </div>
+
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for page in pages %}
+                    {% if page.heuristic_evaluations.exists %}
+                    <details class="group overflow-visible border-b border-gray-100 dark:border-gray-800 last:border-0">
+                        <summary class="p-5 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors cursor-pointer list-none">
+                            <div class="flex items-center gap-3">
+                                <span class="material-icons-outlined text-gray-400 group-open:rotate-90 transition-transform shrink-0" style="font-size:18px">chevron_right</span>
+                                
+                                <code class="text-sm font-mono text-primary-600 dark:text-primary-400 flex-1" title="{{ page.path }}">{{ page.path }}</code>
+                                
+                                {% if page.path == '/' %}
+                                <span class="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                    HOME
+                                </span>
+                                {% endif %}
+
+                                {% if page.screenshot %}
+                                <!-- Camera Icon with Screenshot Tooltip -->
+                                <div class="relative group/tooltip inline-block">
+                                    <svg class="w-5 h-5 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 cursor-help transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    
+                                    <!-- Screenshot Tooltip -->
+                                    <div class="invisible group-hover/tooltip:visible opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 absolute z-50 right-0 bottom-full mb-2 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border-2 border-primary-500 dark:border-primary-600 overflow-hidden pointer-events-none">
+                                        <div class="p-2">
+                                            <div class="aspect-video bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
+                                                <img data-src="{{ page.screenshot.url }}" 
+                                                     alt="Screenshot de {{ page.path }}" 
+                                                     class="lazy-tooltip w-full h-full object-cover object-top">
+                                            </div>
+                                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Screenshot da página</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </summary>
+                        
+                        <!-- Collapsable Content -->
+                        <div class="px-5 pb-5 pt-2 space-y-3 bg-gray-50/50 dark:bg-gray-900/20">
+                            {% for evaluation in page.heuristic_evaluations.all %}
+                            <div class="bg-white dark:bg-gray-800/50 rounded-lg p-4 border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-start justify-between gap-3 mb-3">
+                                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white">
+                                        {{ evaluation.heuristic.name }}
+                                    </h4>
+                                    <!-- Level Badge -->
+                                    <div class="shrink-0">
+                                        {% if evaluation.level == 'critical' %}
+                                        <span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+                                            CRÍTICO
+                                        </span>
+                                        {% elif evaluation.level == 'poor' %}
+                                        <span class="inline-flex items-center bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-orange-900 dark:text-orange-300">
+                                            RUIM
+                                        </span>
+                                        {% elif evaluation.level == 'fair' %}
+                                        <span class="inline-flex items-center bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+                                            REGULAR
+                                        </span>
+                                        {% elif evaluation.level == 'good' %}
+                                        <span class="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                                            BOM
+                                        </span>
+                                        {% elif evaluation.level == 'excellent' %}
+                                        <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                                            EXCELENTE
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <p class="text-xs font-semibold text-red-700 dark:text-red-400 mb-2 uppercase tracking-wide">Problemas encontrados:</p>
+                                    {% if evaluation.problems %}
+                                    <div class="text-sm text-gray-700 dark:text-gray-300 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-3 rounded">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            {% for line in evaluation.problems.splitlines %}
+                                            {% if line.strip %}
+                                            <li>{{ line|striptags }}</li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <div class="text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 border-l-4 border-gray-300 dark:border-gray-600 p-3 rounded italic">
+                                        Nenhum problema relevante encontrado para esta heurística.
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div>
+                                    <p class="text-xs font-semibold text-blue-700 dark:text-blue-400 mb-2 uppercase tracking-wide">Recomendações:</p>
+                                    {% if evaluation.recommendations %}
+                                    <div class="text-sm text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-3 rounded">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            {% for line in evaluation.recommendations.splitlines %}
+                                            {% if line.strip %}
+                                            <li>{{ line|striptags }}</li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <div class="text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 border-l-4 border-gray-300 dark:border-gray-600 p-3 rounded italic">
+                                        Nenhuma recomendação adicional para esta heurística.
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+                    {% endif %}
+                    {% empty %}
+                    <div class="p-12 text-center">
+                        <p class="text-gray-500 dark:text-gray-400">Sem páginas</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Pages List (not evaluated) -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 overflow-visible shadow-sm">
+                <div class="p-5 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                    <h2 class="text-base font-semibold text-gray-900 dark:text-white">Páginas não avaliadas</h2>
+                </div>
+
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for page in pages %}
+                    {% if not page.heuristic_evaluations.exists %}
+                    <div class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors overflow-visible">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <code class="text-sm font-mono text-primary-600 dark:text-primary-400" title="{{ page.path }}">{{ page.path|truncatechars:50 }}</code>
+                                    
+                                    {% if page.path == '/' %}
+                                    <span class="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                        HOME
+                                    </span>
+                                    {% endif %}
+
+                                    {% if page.screenshot %}
+                                    <!-- Camera Icon with Screenshot Tooltip -->
+                                    <div class="relative group/tooltip inline-block ml-auto">
+                                        <svg class="w-5 h-5 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 cursor-help transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        
+                                        <!-- Screenshot Tooltip -->
+                                        <div class="invisible group-hover/tooltip:visible opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 absolute z-50 right-0 bottom-full mb-2 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-2xl border-2 border-primary-500 dark:border-primary-600 overflow-hidden pointer-events-none">
+                                            <div class="p-2">
+                                                <div class="aspect-video bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
+                                                    <img data-src="{{ page.screenshot.url }}" 
+                                                         alt="Screenshot de {{ page.path }}" 
+                                                         class="lazy-tooltip w-full h-full object-cover object-top">
+                                                </div>
+                                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Screenshot da página</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% empty %}
+                    <div class="p-12 text-center">
+                        <p class="text-gray-500 dark:text-gray-400">Sem páginas</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Lazy load screenshots on hover
+    const tooltipContainers = document.querySelectorAll('.group\\/tooltip');
+    
+    tooltipContainers.forEach(container => {
+        const img = container.querySelector('img.lazy-tooltip');
+        if (!img) return;
+        
+        let loaded = false;
+        
+        container.addEventListener('mouseenter', function() {
+            if (!loaded && img.dataset.src) {
+                // Load the image
+                img.src = img.dataset.src;
+                img.loading = 'eager';
+                img.decoding = 'async';
+                loaded = true;
+                
+                // Remove data-src to prevent reloading
+                delete img.dataset.src;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

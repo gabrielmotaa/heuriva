@@ -1,0 +1,356 @@
+# Tradução em Português Brasileiro para Heuriva
+# Copyright (C) 2025
+# This file is distributed under the same license as the Heuriva package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Heuriva 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-03 12:40-0300\n"
+"PO-Revision-Date: 2025-11-03 12:03-0300\n"
+"Last-Translator: \n"
+"Language-Team: Português Brasileiro\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: heuriva/apps/accounts/apps.py:8
+msgid "accounts"
+msgstr "contas"
+
+#: heuriva/apps/accounts/managers.py:16
+msgid "The Email must be set"
+msgstr "O e-mail deve ser informado"
+
+#: heuriva/apps/accounts/managers.py:33
+msgid "Superuser must have is_staff=True."
+msgstr "O superusuário deve ter is_staff=True."
+
+#: heuriva/apps/accounts/managers.py:35
+msgid "Superuser must have is_superuser=True."
+msgstr "O superusuário deve ter is_superuser=True."
+
+#: heuriva/apps/accounts/models.py:12
+msgid "Free"
+msgstr "Gratuito"
+
+#: heuriva/apps/accounts/models.py:13
+msgid "Professional"
+msgstr "Profissional"
+
+#: heuriva/apps/accounts/models.py:14
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: heuriva/apps/accounts/models.py:17
+msgid "email address"
+msgstr "endereço de e-mail"
+
+#: heuriva/apps/accounts/models.py:22
+msgid "subscription tier"
+msgstr "plano de assinatura"
+
+#: heuriva/apps/analysis/admin.py:41
+msgid "Project Information"
+msgstr "Informações do Projeto"
+
+#: heuriva/apps/analysis/admin.py:43 heuriva/apps/analysis/admin.py:129
+msgid "Screenshot"
+msgstr "Captura de Tela"
+
+#: heuriva/apps/analysis/admin.py:47 heuriva/apps/analysis/admin.py:100
+#: heuriva/apps/analysis/admin.py:138
+#: heuriva/apps/heuristics/admin.py:23
+#: heuriva/apps/heuristics/admin.py:40
+#: heuriva/apps/heuristics/admin.py:60
+msgid "Dates"
+msgstr "Datas"
+
+#: heuriva/apps/analysis/admin.py:52
+msgid "Analyses"
+msgstr "Análises"
+
+#: heuriva/apps/analysis/admin.py:56 heuriva/apps/analysis/admin.py:175
+msgid "Preview"
+msgstr "Visualização"
+
+#: heuriva/apps/analysis/admin.py:63 heuriva/apps/analysis/admin.py:182
+msgid "No screenshot"
+msgstr "Sem captura de tela"
+
+#: heuriva/apps/analysis/admin.py:89 heuriva/apps/analysis/apps.py:8
+msgid "Analysis"
+msgstr "Análise"
+
+#: heuriva/apps/analysis/admin.py:93
+msgid "Status"
+msgstr "Status"
+
+#: heuriva/apps/analysis/admin.py:105
+#: heuriva/apps/analysis/admin.py:171
+msgid "Project"
+msgstr "Projeto"
+
+#: heuriva/apps/analysis/admin.py:109
+msgid "Pages"
+msgstr "Páginas"
+
+#: heuriva/apps/analysis/admin.py:128
+msgid "Page Information"
+msgstr "Informações da Página"
+
+#: heuriva/apps/analysis/admin.py:131
+msgid "HTML Content"
+msgstr "Conteúdo HTML"
+
+#: heuriva/apps/analysis/admin.py:167
+msgid "Project URL"
+msgstr "URL do Projeto"
+
+#: heuriva/apps/analysis/admin.py:184
+msgid "HTML Statistics"
+msgstr "Estatísticas HTML"
+
+#: heuriva/apps/analysis/admin.py:274
+msgid "HTML Preview"
+msgstr "Visualização HTML"
+
+#: heuriva/apps/analysis/admin.py:325
+msgid "Export HTML content of selected pages"
+msgstr "Exportar conteúdo HTML das páginas selecionadas"
+
+#: heuriva/apps/analysis/admin.py:334
+msgid "No pages selected."
+msgstr "Nenhuma página selecionada."
+
+#: heuriva/apps/analysis/admin.py:343
+msgid "None of the selected pages have HTML content to export."
+msgstr "Nenhuma das páginas selecionadas possui conteúdo HTML para exportar."
+
+#: heuriva/apps/analysis/admin.py:372
+#, python-brace-format
+msgid "Successfully exported HTML content from {} page(s)."
+msgstr "Conteúdo HTML exportado com sucesso de {} página(s)."
+
+#: heuriva/apps/analysis/models.py:38
+#: heuriva/apps/heuristics/models.py:7
+#: heuriva/apps/heuristics/models.py:22
+msgid "name"
+msgstr "nome"
+
+#: heuriva/apps/analysis/models.py:39
+msgid "URL"
+msgstr "URL"
+
+#: heuriva/apps/analysis/models.py:44
+msgid "user"
+msgstr "usuário"
+
+#: heuriva/apps/analysis/models.py:50
+msgid "homepage screenshot"
+msgstr "captura de tela da página inicial"
+
+#: heuriva/apps/analysis/models.py:52
+#: heuriva/apps/analysis/models.py:108
+#: heuriva/apps/analysis/models.py:147
+#: heuriva/apps/heuristics/models.py:9
+#: heuriva/apps/heuristics/models.py:27
+#: heuriva/apps/heuristics/models.py:62
+msgid "created at"
+msgstr "criado em"
+
+#: heuriva/apps/analysis/models.py:53
+#: heuriva/apps/analysis/models.py:109
+#: heuriva/apps/analysis/models.py:148
+#: heuriva/apps/heuristics/models.py:10
+#: heuriva/apps/heuristics/models.py:28
+#: heuriva/apps/heuristics/models.py:63
+msgid "updated at"
+msgstr "atualizado em"
+
+#: heuriva/apps/analysis/models.py:56
+#: heuriva/apps/analysis/models.py:82
+msgid "project"
+msgstr "projeto"
+
+#: heuriva/apps/analysis/models.py:57
+msgid "projects"
+msgstr "projetos"
+
+#: heuriva/apps/analysis/models.py:70
+msgid "Pending"
+msgstr "Pendente"
+
+#: heuriva/apps/analysis/models.py:71
+msgid "Crawling"
+msgstr "Coletando"
+
+#: heuriva/apps/analysis/models.py:72
+msgid "Crawl Completed"
+msgstr "Coleta Concluída"
+
+#: heuriva/apps/analysis/models.py:73
+msgid "Analyzing Heuristics"
+msgstr "Analisando Heurísticas"
+
+#: heuriva/apps/analysis/models.py:74
+msgid "Completed"
+msgstr "Concluído"
+
+#: heuriva/apps/analysis/models.py:75
+msgid "Failed"
+msgstr "Falhou"
+
+#: heuriva/apps/analysis/models.py:84
+msgid "score"
+msgstr "pontuação"
+
+#: heuriva/apps/analysis/models.py:89
+msgid "heuristics group"
+msgstr "grupo de heurísticas"
+
+#: heuriva/apps/analysis/models.py:96
+msgid "status"
+msgstr "status"
+
+#: heuriva/apps/analysis/models.py:99
+msgid "celery task id"
+msgstr "id da tarefa celery"
+
+#: heuriva/apps/analysis/models.py:102
+msgid "error message"
+msgstr "mensagem de erro"
+
+#: heuriva/apps/analysis/models.py:105
+msgid "executive summary"
+msgstr "resumo executivo"
+
+#: heuriva/apps/analysis/models.py:107
+msgid "priorities"
+msgstr "prioridades"
+
+#: heuriva/apps/analysis/models.py:112
+#: heuriva/apps/analysis/models.py:135
+msgid "analysis"
+msgstr "análise"
+
+#: heuriva/apps/analysis/models.py:113
+msgid "analyses"
+msgstr "análises"
+
+#: heuriva/apps/analysis/models.py:137
+msgid "path"
+msgstr "caminho"
+
+#: heuriva/apps/analysis/models.py:142
+msgid "screenshot"
+msgstr "captura de tela"
+
+#: heuriva/apps/analysis/models.py:145
+msgid "HTML content"
+msgstr "conteúdo HTML"
+
+#: heuriva/apps/analysis/models.py:153
+#: heuriva/apps/heuristics/models.py:51
+msgid "page"
+msgstr "página"
+
+#: heuriva/apps/analysis/models.py:154
+msgid "pages"
+msgstr "páginas"
+
+#: heuriva/apps/heuristics/admin.py:10
+msgid "Heuristic"
+msgstr "Heurística"
+
+#: heuriva/apps/heuristics/admin.py:11
+#: heuriva/apps/heuristics/admin.py:38
+#: heuriva/apps/heuristics/apps.py:8
+msgid "Heuristics"
+msgstr "Heurísticas"
+
+#: heuriva/apps/heuristics/admin.py:21
+#: heuriva/apps/heuristics/admin.py:37
+msgid "General Information"
+msgstr "Informações Gerais"
+
+#: heuriva/apps/heuristics/admin.py:45
+msgid "Heuristics Count"
+msgstr "Contagem de Heurísticas"
+
+#: heuriva/apps/heuristics/admin.py:57
+msgid "Evaluation"
+msgstr "Avaliação"
+
+#: heuriva/apps/heuristics/admin.py:58
+msgid "Details"
+msgstr "Detalhes"
+
+#: heuriva/apps/heuristics/admin.py:65
+msgid "Page"
+msgstr "Página"
+
+#: heuriva/apps/heuristics/models.py:8
+#: heuriva/apps/heuristics/models.py:26
+msgid "description"
+msgstr "descrição"
+
+#: heuriva/apps/heuristics/models.py:13
+#: heuriva/apps/heuristics/models.py:57
+msgid "heuristic"
+msgstr "heurística"
+
+#: heuriva/apps/heuristics/models.py:14
+#: heuriva/apps/heuristics/models.py:24
+msgid "heuristics"
+msgstr "heurísticas"
+
+#: heuriva/apps/heuristics/models.py:31
+msgid "heuristic group"
+msgstr "grupo de heurísticas"
+
+#: heuriva/apps/heuristics/models.py:32
+msgid "heuristic groups"
+msgstr "grupos de heurísticas"
+
+#: heuriva/apps/heuristics/models.py:40
+msgid "Excellent"
+msgstr "Excelente"
+
+#: heuriva/apps/heuristics/models.py:41
+msgid "Good"
+msgstr "Bom"
+
+#: heuriva/apps/heuristics/models.py:42
+msgid "Fair"
+msgstr "Regular"
+
+#: heuriva/apps/heuristics/models.py:43
+msgid "Poor"
+msgstr "Ruim"
+
+#: heuriva/apps/heuristics/models.py:44
+msgid "Critical"
+msgstr "Crítico"
+
+#: heuriva/apps/heuristics/models.py:59
+msgid "level"
+msgstr "nível"
+
+#: heuriva/apps/heuristics/models.py:60
+msgid "problems"
+msgstr "problemas"
+
+#: heuriva/apps/heuristics/models.py:61
+msgid "recommendations"
+msgstr "recomendações"
+
+#: heuriva/apps/heuristics/models.py:66
+msgid "heuristic evaluation"
+msgstr "avaliação heurística"
+
+#: heuriva/apps/heuristics/models.py:67
+msgid "heuristic evaluations"
+msgstr "avaliações heurísticas"

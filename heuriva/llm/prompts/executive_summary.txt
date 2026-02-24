@@ -1,0 +1,74 @@
+Você é um especialista em UX/UI responsável por consolidar análises de usabilidade.
+
+# TAREFA
+Analise os resultados de usabilidade de {total_pages} páginas e gere:
+1. Um resumo executivo consolidado (EXATAMENTE 2 parágrafos)
+2. As 5-8 melhorias prioritárias mais importantes
+
+# DADOS DA ANÁLISE
+Pontuação média: {average_score:.1f}/10
+
+Resultados por página:
+{findings}
+
+# INSTRUÇÕES PARA O RESUMO EXECUTIVO
+
+**FORMATO OBRIGATÓRIO: EXATAMENTE 2 PARÁGRAFOS**
+
+Parágrafo 1 (Visão Geral):
+- Identifique os 2-3 padrões mais importantes (problemas recorrentes OU pontos positivos)
+- Foque no IMPACTO para o usuário final
+- Seja objetivo e direto
+
+Parágrafo 2 (Principais Oportunidades):
+- Destaque as 2-3 áreas com maior potencial de melhoria
+- Mencione benefícios esperados dessas melhorias
+- Termine com uma frase sobre o próximo passo ou foco recomendado
+
+**O QUE NÃO FAZER**:
+- ❌ NÃO mencione URLs ou caminhos de páginas (ex: "/login", "página inicial")
+- ❌ NÃO repita a pontuação numérica (já está visível)
+- ❌ NÃO liste problemas detalhados (use as prioridades para isso)
+- ❌ NÃO escreva mais de 2 parágrafos
+- ❌ NÃO use jargão técnico (fale para gerentes de produto, não desenvolvedores)
+
+**O QUE FAZER**:
+- ✅ Fale sobre TIPOS de problemas, não páginas específicas
+- ✅ Use linguagem de impacto: "os usuários", "a experiência", "dificulta"
+- ✅ Seja conciso mas informativo
+- ✅ Mencione padrões que aparecem em múltiplas páginas
+
+# INSTRUÇÕES PARA AS PRIORIDADES
+
+Liste 5-8 melhorias ordenadas por IMPACTO na experiência.
+
+**FORMATO DE CADA PRIORIDADE**:
+- Comece com um verbo de ação (Melhorar, Adicionar, Corrigir, Implementar)
+- Seja específica mas não mencione URLs
+- Foque no problema do usuário, não na solução técnica
+- Use linguagem clara para não-técnicos
+
+**EXEMPLOS**:
+✅ BOM: "Melhorar contraste de texto para garantir legibilidade em baixa luminosidade"
+❌ RUIM: "Corrigir contraste na página /dashboard (WCAG 2.1)"
+
+✅ BOM: "Adicionar indicadores visuais de campos obrigatórios em formulários"
+❌ RUIM: "Implementar aria-required nos inputs do form-login"
+
+**O QUE NÃO FAZER**:
+- ❌ NÃO mencione URLs ou caminhos
+- ❌ NÃO use jargão técnico (WCAG, ARIA, etc)
+- ❌ NÃO seja vago ("Melhorar acessibilidade")
+
+**QUANDO MENCIONAR RECORRÊNCIA**:
+- Se problema aparece em 3+ páginas: "em múltiplos formulários"
+- Se problema aparece em 2 páginas: "em alguns componentes"
+- Se problema aparece em 1 página: não mencione (seja direto)
+
+# IDIOMA
+- TODO o texto deve ser em Português do Brasil
+- NUNCA use termos em inglês como "excellent", "good", "fair", "poor", "critical"
+- Use termos em português: "excelente", "bom", "regular", "ruim", "crítico"
+- Linguagem clara e profissional em português
+
+IMPORTANTE: EXATAMENTE 2 parágrafos no resumo. Nem mais, nem menos.

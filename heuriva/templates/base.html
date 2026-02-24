@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Primary Meta Tags -->
+    <title>{% block title %}Heuriva - Auditoria de Interface e UX{% endblock %}</title>
+    <meta name="title" content="{% block meta_title %}Heuriva - Auditoria Automatizada de Privacidade{% endblock %}">
+    <meta name="description" content="{% block meta_description %}Auditoria automatizada de interfaces de usuário. Identifique dark patterns, melhore a experiência e fortaleça a confiança dos seus clientes com análise de privacidade baseada em IA.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}privacidade, análise heurística, auditoria, UX, análise de interface, score de privacidade{% endblock %}">
+    <meta name="author" content="Heuriva">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'assets/symbol-dark.svg' %}">
+    <link rel="apple-touch-icon" href="{% static 'assets/symbol-dark.svg' %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Heuriva - Auditoria Automatizada de Privacidade{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Auditoria automatizada de interfaces. Identifique problemas de usabilidade, melhore a experiência e fortaleça a confiança dos seus clientes.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% static 'assets/logo-dark.svg' %}{% endblock %}">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="twitter:title" content="{% block twitter_title %}Heuriva - Auditoria Automatizada de Privacidade{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Auditoria automatizada de interfaces. Identifique problemas de usabilidade, melhore a experiência e fortaleça a confiança dos seus clientes.{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{% static 'assets/logo-dark.svg' %}{% endblock %}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Scripts -->
+    <script defer src="{% static 'js/main.js' %}"></script>
+    <script defer src="{% static 'js/alpinejs.min.js' %}"></script>
+    <script defer src="{% static 'js/flowbite.min.js' %}"></script>
+    <script>
+        // Initialize theme before page render to prevent flash
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            const html = document.documentElement;
+            html.setAttribute('data-theme', theme);
+            if (theme === 'dark') {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+        })();
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased min-h-screen transition-colors duration-200">
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

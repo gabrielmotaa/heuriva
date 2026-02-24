@@ -1,0 +1,6 @@
+{% load static %}
+{# Logo que muda automaticamente com o tema #}
+<span class="{{ class }}">
+    <img src="{% static 'assets/logo-dark.svg' %}" alt="Heuriva Logo" class="logo-dark" />
+    <img src="{% static 'assets/logo-light.svg' %}" alt="Heuriva Logo" class="logo-light" />
+</span>

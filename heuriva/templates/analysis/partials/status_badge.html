@@ -1,0 +1,41 @@
+{% comment %}
+Status badge for Analysis model
+Usage: {% include "analysis/partials/status_badge.html" with status=analysis.status %}
+{% endcomment %}
+
+{% if status == 'pending' %}
+<span class="inline-flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+    <span class="w-2 h-2 me-1 bg-gray-500 rounded-full"></span>
+    Pendente
+</span>
+{% elif status == 'crawling' %}
+<span class="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+    <span class="w-2 h-2 me-1 bg-blue-500 rounded-full animate-pulse"></span>
+    Coletando
+</span>
+{% elif status == 'crawl_completed' %}
+<span class="inline-flex items-center bg-cyan-100 text-cyan-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-cyan-900 dark:text-cyan-300">
+    <span class="w-2 h-2 me-1 bg-cyan-500 rounded-full"></span>
+    Coleta Concluída
+</span>
+{% elif status == 'analyzing' %}
+<span class="inline-flex items-center bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
+    <span class="w-2 h-2 me-1 bg-purple-500 rounded-full animate-pulse"></span>
+    Analisando
+</span>
+{% elif status == 'completed' %}
+<span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+    <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+    Concluída
+</span>
+{% elif status == 'failed' %}
+<span class="inline-flex items-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">
+    <span class="w-2 h-2 me-1 bg-red-500 rounded-full"></span>
+    Falhou
+</span>
+{% else %}
+<span class="inline-flex items-center bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+    <span class="w-2 h-2 me-1 bg-gray-500 rounded-full"></span>
+    {{ status|title }}
+</span>
+{% endif %}

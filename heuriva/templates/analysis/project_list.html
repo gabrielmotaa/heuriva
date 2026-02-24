@@ -1,0 +1,110 @@
+{% extends "analysis/base_app.html" %}
+
+{% load static %}
+
+{% block title %}Projetos - Heuriva{% endblock %}
+
+{% block app_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <span class="material-icons-outlined text-primary">folder_open</span>
+                Meus Projetos
+            </h1>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Gerencie e acompanhe suas análises de interface</p>
+        </div>
+        {% if projects %}
+            <a href="{% url 'analysis:project_create' %}" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                <span class="material-icons-outlined text-[18px]">add</span>
+                Novo Projeto
+            </a>
+        {% endif %}
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Existing Projects -->
+        {% for project in projects %}
+        <a href="{% url 'analysis:project_detail' project.short_id %}" aria-label="Ver {{ project.name }}">
+        <div class="relative bg-surface-light dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all flex flex-col h-full group">
+            <!-- Full card link -->
+
+            <div class="flex items-start justify-between mb-4 relative z-10">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center border border-gray-100 dark:border-gray-700">
+                        <span class="material-icons-outlined text-gray-400">web</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h3 class="font-medium text-gray-900 dark:text-white truncate" title="{{ project.name }}">{{ project.name }}</h3>
+                        <span class="relative z-20 text-xs text-primary dark:text-blue-400 truncate">{{ project.url }}</span>
+                    </div>
+                </div>
+                {% if project.analyses.exists %}
+                    {% with last_analysis=project.analyses.first %}
+                        {% if last_analysis.score %}
+                            <span class="inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-semibold {% if last_analysis.score >= 8 %}bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800{% elif last_analysis.score >= 5 %}bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800{% else %}bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800{% endif %}">
+                                {{ last_analysis.score }}/10
+                            </span>
+                        {% else %}
+                            <span class="inline-flex items-center justify-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
+                                --
+                            </span>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </div>
+
+            <!-- Project Screenshot -->
+            <div class="relative z-10 block aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg relative overflow-hidden mb-4 border border-gray-200 dark:border-gray-700 flex-1">
+                {% if project.homepage_screenshot %}
+                    <img src="{{ project.homepage_screenshot.url }}" 
+                         alt="Screenshot de {{ project.name }}" 
+                         class="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-300">
+                {% else %}
+                    <div class="flex items-center justify-center h-full">
+                        <span class="material-icons-outlined text-4xl text-gray-300 dark:text-gray-600">image</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Footer Info -->
+            <div class="relative z-10 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-4 mt-auto">
+                <span class="flex items-center gap-1.5">
+                    <span class="material-icons-outlined text-[14px]">history</span> 
+                    {% if project.analyses.exists %}
+                        {{ project.analyses.first.created_at|timesince }} atrás
+                    {% else %}
+                        Sem análise
+                    {% endif %}
+                </span>
+                <span class="flex items-center gap-1 font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
+                    Detalhes <span class="material-icons-outlined text-[14px]">arrow_forward</span>
+                </span>
+            </div>
+        </div>
+        </a>
+        {% empty %}
+        <!-- Handled below -->
+        {% endfor %}
+    </div>
+
+    <!-- Empty State for when there are no projects at all -->
+    {% if not projects %}
+    <div class="text-center py-12">
+        <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4">account_tree</span>
+        <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Nenhum projeto ainda</h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+            Comece criando seu primeiro projeto para analisar a interface e usabilidade do seu site.
+        </p>
+        <div class="mt-6 flex justify-center">
+            <a href="{% url 'analysis:project_create' %}" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium px-5 py-2.5 rounded-lg shadow-sm transition-colors">
+                <span class="material-icons-outlined text-[18px]">add</span>
+                Criar primeiro projeto
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

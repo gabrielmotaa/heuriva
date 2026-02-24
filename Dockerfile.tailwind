@@ -1,0 +1,14 @@
+FROM node:24-slim
+
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
+
+WORKDIR /app
+
+RUN chown -R nonroot:nonroot /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+USER nonroot

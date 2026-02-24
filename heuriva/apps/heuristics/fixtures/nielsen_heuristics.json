@@ -1,0 +1,113 @@
+[
+  {
+    "model": "heuristics.heuristic",
+    "pk": 1,
+    "fields": {
+      "name": "Visibilidade do Status do Sistema",
+      "description": "O sistema deve sempre manter os usuários informados sobre o que está acontecendo, através de feedback apropriado em tempo razoável. Os usuários precisam saber onde estão no sistema, o que está acontecendo e ter confirmação de suas ações. Exemplos incluem indicadores de progresso, mensagens de confirmação, breadcrumbs de navegação e estados visuais de botões (hover, clique, desabilitado).",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 2,
+    "fields": {
+      "name": "Correspondência entre o Sistema e o Mundo Real",
+      "description": "O sistema deve usar linguagem e conceitos familiares ao usuário, em vez de termos técnicos ou jargões internos. As informações devem aparecer em uma ordem natural e lógica, seguindo convenções do mundo real. Use metáforas reconhecíveis, ícones intuitivos e terminologia que o público-alvo já conhece. Evite termos de sistema, códigos ou siglas que não fazem sentido para o usuário final.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 3,
+    "fields": {
+      "name": "Controle e Liberdade do Usuário",
+      "description": "Os usuários frequentemente executam ações por engano e precisam de uma 'saída de emergência' claramente marcada para sair do estado indesejado sem ter que passar por um processo extenso. Forneça funcionalidades de desfazer e refazer. Permita que usuários cancelem operações em andamento. Não force o usuário a completar fluxos - dê a opção de voltar ou cancelar a qualquer momento. Botões como 'Voltar', 'Cancelar' e confirmações de exclusão são exemplos desta heurística.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 4,
+    "fields": {
+      "name": "Consistência e Padrões",
+      "description": "Os usuários não devem ter que se perguntar se diferentes palavras, situações ou ações significam a mesma coisa. Siga as convenções de plataforma e da indústria. Use terminologia, cores, layouts e comportamentos consistentes em todo o sistema. Botões primários devem sempre ter a mesma aparência e posição. Ícones devem manter o mesmo significado. Padrões de navegação devem ser previsíveis. A consistência interna (dentro do seu sistema) e externa (com outros sistemas) reduz a carga cognitiva.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 5,
+    "fields": {
+      "name": "Prevenção de Erros",
+      "description": "Melhor que boas mensagens de erro é um design cuidadoso que previne que problemas ocorram. Elimine condições propensas a erros ou verifique-as e apresente aos usuários uma opção de confirmação antes de se comprometerem com a ação. Exemplos incluem: validação de formulários em tempo real, desabilitar botões de submit até que campos obrigatórios sejam preenchidos, confirmações para ações destrutivas (deletar, sair sem salvar), restrições em campos de entrada (máscaras, limites) e sugestões automáticas para prevenir erros de digitação.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 6,
+    "fields": {
+      "name": "Reconhecimento em vez de Lembrança",
+      "description": "Minimize a carga de memória do usuário tornando elementos, ações e opções visíveis. O usuário não deve ter que lembrar informações de uma parte do sistema para outra. Instruções de uso do sistema devem estar visíveis ou facilmente acessíveis quando apropriado. Exemplos incluem: menus dropdown em vez de comandos de texto, autocompletar em campos de busca, histórico de ações recentes, itens recentemente visualizados, breadcrumbs mostrando o caminho percorrido e tooltips explicativos. Mostre ao invés de forçar memorização.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 7,
+    "fields": {
+      "name": "Flexibilidade e Eficiência de Uso",
+      "description": "Atalhos - invisíveis para usuários novatos - podem acelerar a interação para usuários experientes, de forma que o sistema atenda tanto usuários inexperientes quanto experientes. Permita que usuários personalizem ações frequentes. Exemplos incluem: atalhos de teclado, gestos, comandos rápidos, favoritos/marcadores, histórico de buscas, templates salvos, opções de visualização (lista/grid), filtros avançados e macros. O sistema deve ser fácil de aprender para iniciantes, mas eficiente para usuários avançados.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 8,
+    "fields": {
+      "name": "Design Estético e Minimalista",
+      "description": "As interfaces não devem conter informações irrelevantes ou raramente necessárias. Cada unidade extra de informação em um diálogo compete com as unidades relevantes de informação e diminui sua visibilidade relativa. Mantenha o conteúdo e design visual focado no essencial. Use hierarquia visual clara. Remova elementos decorativos que não servem a um propósito funcional. Progressiva disclosure - mostre informações avançadas apenas quando necessário. Evite sobrecarga de informação e poluição visual. Simplicidade não significa falta de funcionalidade, mas sim apresentação clara e focada.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 9,
+    "fields": {
+      "name": "Ajude os Usuários a Reconhecer, Diagnosticar e Recuperar de Erros",
+      "description": "Mensagens de erro devem ser expressas em linguagem clara (sem códigos), indicar precisamente o problema e sugerir construtivamente uma solução. Use linguagem simples e educada, evite culpar o usuário. Explique o que aconteceu de errado, por que aconteceu e como resolver. Use cores (vermelho para erro), ícones apropriados e posicione a mensagem próxima ao problema. Forneça links ou botões diretos para resolver o erro. Exemplos: 'Email inválido. Por favor, use o formato nome@exemplo.com' em vez de 'Erro 422: Campo inválido'.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristic",
+    "pk": 10,
+    "fields": {
+      "name": "Ajuda e Documentação",
+      "description": "Embora seja melhor que o sistema possa ser usado sem documentação, pode ser necessário fornecer ajuda e documentação. Qualquer informação deste tipo deve ser fácil de pesquisar, focada na tarefa do usuário, listar passos concretos a serem seguidos e não ser muito extensa. Exemplos incluem: FAQs contextuais, tooltips explicativos, tours guiados para novos usuários, central de ajuda pesquisável, vídeos tutoriais, chatbots de suporte e documentação integrada (não em PDF separado). A ajuda deve estar disponível no contexto onde o usuário precisa, não em um manual separado.",
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "heuristics.heuristicgroup",
+    "pk": 1,
+    "fields": {
+      "name": "Heurísticas de Nielsen",
+      "description": "As 10 Heurísticas de Usabilidade de Jakob Nielsen são princípios gerais de design de interface que ajudam a criar sistemas mais usáveis e intuitivos. Desenvolvidas por Jakob Nielsen em 1994, estas heurísticas são amplamente utilizadas para avaliação heurística de interfaces, identificando problemas de usabilidade antes de testes com usuários. São aplicáveis a diversos tipos de interfaces: web, mobile, desktop e sistemas complexos.",
+      "heuristics": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "created_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z"
+    }
+  }
+]

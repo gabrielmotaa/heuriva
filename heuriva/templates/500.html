@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}500 - Erro interno - Heuriva{% endblock %}
+
+{% block content %}
+<div class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- Theme toggle -->
+    <div class="absolute top-6 right-6">
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 cursor-pointer dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none">
+            <span id="theme-toggle-dark-icon" class="material-icons-outlined leading-none" style="font-size:18px">dark_mode</span>
+            <span id="theme-toggle-light-icon" class="material-icons-outlined leading-none" style="font-size:18px">light_mode</span>
+        </button>
+    </div>
+
+    <div class="text-center max-w-md">
+        <!-- Logo -->
+        <a href="{% url 'pages:index' %}" class="inline-block mb-12">
+            <img src="{% static 'assets/logo-dark.svg' %}" alt="Heuriva" class="w-28 h-auto logo-dark mx-auto" />
+            <img src="{% static 'assets/logo-light.svg' %}" alt="Heuriva" class="w-28 h-auto logo-light mx-auto" />
+        </a>
+
+        <!-- Error card -->
+        <div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm px-8 py-10">
+            <div class="w-16 h-16 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center mx-auto mb-6">
+                <span class="material-icons-outlined text-red-500 dark:text-red-400" style="font-size:32px">error_outline</span>
+            </div>
+
+            <p class="text-sm font-mono text-red-500 dark:text-red-400 mb-2">500</p>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-3">Erro interno do servidor</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+                Algo deu errado do nosso lado. Por favor, tente novamente em alguns instantes.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a href="{% url 'pages:index' %}" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium px-5 py-2.5 rounded-lg shadow-sm transition-colors text-sm">
+                    <span class="material-icons-outlined" style="font-size:16px">home</span>
+                    Ir para o início
+                </a>
+                <a href="javascript:location.reload()" class="inline-flex items-center gap-2 border border-gray-200 dark:border-gray-700 bg-surface-light dark:bg-surface-dark hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium px-5 py-2.5 rounded-lg text-sm transition-colors">
+                    <span class="material-icons-outlined" style="font-size:16px">refresh</span>
+                    Tentar novamente
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
