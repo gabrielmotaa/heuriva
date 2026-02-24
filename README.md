@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="heuriva/static/assets/logo-light.svg">
+    <source media="(prefers-color-scheme: light)" srcset="heuriva/static/assets/logo-dark.svg">
+    <img alt="Heuriva Logo" src="heuriva/static/assets/logo-dark.svg" width="400">
+  </picture>
+</p>
+
 # Heuriva
 
 Automated Usability and UX Auditing.
