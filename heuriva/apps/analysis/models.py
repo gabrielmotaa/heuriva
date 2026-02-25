@@ -97,7 +97,6 @@ class Analysis(models.Model):
     )
     sequence_number = models.PositiveIntegerField(
         editable=False,
-        null=True,
         verbose_name=_("sequence number"),
     )
     project = models.ForeignKey(
