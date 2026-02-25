@@ -10,15 +10,16 @@ Analise o código HTML fornecido abaixo e avalie sua conformidade com as heurís
 # INSTRUÇÕES DE ANÁLISE
 Para cada heurística, você deve:
 
-1. **Examine APENAS o que está visível no HTML estático**
-   - Analise elementos, atributos, classes, IDs, estrutura e conteúdo textual
-   - NÃO faça suposições sobre comportamentos dinâmicos (JavaScript, animações, requisições)
-   - Se algo depende de interatividade não explícita no HTML, mencione essa limitação
+1. **Examine o HTML E O SCREENSHOT da página**
+   - Use o screenshot para entender o layout, hierarquia visual e design
+   - Analise os elementos HTML correspondentes para verificar a estrutura e semântica
+   - O screenshot é a fonte principal para avaliar questões visuais (contraste, alinhamento, consistência)
+   - O HTML fornece o contexto técnico (acessibilidade, tags estruturais, atributos)
 
 2. **Identifique problemas ESPECÍFICOS e concretos**
-   - Cite elementos HTML reais (ex: "div.modal sem aria-label")
-   - Use exemplos do código fornecido
-   - Foque em problemas verificáveis no HTML estático
+   - Cite elementos visíveis na imagem ou reais do código HTML (ex: "botão vermelho no canto superior" ou "div.modal sem aria-label")
+   - Use exemplos do contexto fornecido
+   - Foque em problemas verificáveis na imagem e no código
    - Cada item de problema deve ser uma frase objetiva e independente
 
 3. **Avalie o nível de conformidade**
@@ -29,16 +30,16 @@ Para cada heurística, você deve:
    - **critical**: Problemas graves que impedem ou prejudicam seriamente o uso
 
 4. **Quando usar "fair" (regular)**
-   - Quando a heurística NÃO é aplicável ao HTML fornecido
-   - Quando NÃO há evidências suficientes no HTML para fazer uma avaliação
-   - Quando a avaliação dependeria de comportamentos dinâmicos não visíveis
+   - Quando a heurística NÃO é aplicável à página atual
+   - Quando NÃO há evidências suficientes no HTML ou no screenshot para fazer uma avaliação
+   - Quando a avaliação dependeria de comportamentos interativos não visíveis
    - Quando há implementação básica mas sem elementos notáveis para avaliar
 
 5. **Forneça recomendações ACIONÁVEIS**
-   - Sugira melhorias específicas aplicáveis ao HTML
+   - Sugira melhorias específicas de UI/UX e código
    - Seja construtivo e prático
    - Cada recomendação deve ser uma ação clara e independente
-   - Se não há recomendações relevantes para o HTML estático, deixe a lista vazia
+   - Se não há recomendações relevantes, deixe a lista vazia
 
 6. **Calcule pontuação geral**
    - Baseie-se no conjunto de todas as heurísticas avaliadas
@@ -51,11 +52,11 @@ Para cada heurística, você deve:
 ```
 
 # IMPORTANTE
-- NÃO invente problemas que não podem ser verificados no HTML
-- Se algo não pode ser avaliado pelo HTML estático, marque como "fair" e explique nos problemas
-- Seja específico: cite classes, IDs, elementos concretos do HTML quando relevante
-- Priorize problemas que realmente impactam a usabilidade verificável
-- Liste 3-5 melhorias prioritárias para a página (considerando todas as heurísticas)
+   - NÃO invente problemas que não podem ser verificados no HTML ou no screenshot
+   - Se algo não pode ser avaliado, marque como "fair" e explique nos problemas
+   - Seja específico ao relatar os problemas
+   - Priorize problemas que realmente impactam a usabilidade
+   - Liste 3-5 melhorias prioritárias para a página (considerando todas as heurísticas)
 
 # IDIOMA E FORMATO
 - TODO o texto (problemas, recomendações, resumo, prioridades) deve ser em Português do Brasil

@@ -1,4 +1,5 @@
 import hashlib
+import logging
 
 from celery import shared_task
 from django.conf import settings
@@ -7,6 +8,8 @@ from heuriva.apps.analysis.crawler import PlaywrightCrawler
 from heuriva.apps.analysis.models import Analysis, Page
 from heuriva.apps.heuristics.models import HeuristicEvaluation
 from heuriva.llm import get_llm_provider
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task(bind=True)
@@ -127,12 +130,38 @@ def run_heuristic_analysis(self, analysis_id: int):
                             for eval in prev_evals
                         }
 
+            # Prepare screenshot if available
+            screenshot_bytes = None
+            screenshot_mime_type = None
+
+            if page.screenshot:
+                try:
+                    screenshot_bytes = page.screenshot.read()
+                    # Determine mime type from extension
+                    ext = (
+                        page.screenshot.name.split(".")[-1].lower()
+                        if "." in page.screenshot.name
+                        else ""
+                    )
+                    if ext == "avif":
+                        screenshot_mime_type = "image/avif"
+                    elif ext in ["jpg", "jpeg"]:
+                        screenshot_mime_type = "image/jpeg"
+                    else:
+                        screenshot_mime_type = "image/png"  # default/fallback
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to read screenshot {page.screenshot.name}: {e}"
+                    )
+
             # Analyze page with LLM (with previous context if available)
             result = llm_provider.analyze_page(
                 html_content=page.html_content,
                 heuristics=heuristics,
                 previous_score=previous_score,
                 previous_evaluations=previous_evaluations,
+                screenshot_bytes=screenshot_bytes,
+                screenshot_mime_type=screenshot_mime_type,
             )
 
             # Store result for later consolidation

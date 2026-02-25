@@ -3,6 +3,7 @@ Google Gemini provider implementation.
 """
 
 from google import genai
+from google.genai import types
 
 from .interface import (
     ConsolidatedAnalysisResult,
@@ -33,6 +34,8 @@ class GeminiProvider(LLMProvider):
         heuristics: list[dict],
         previous_score: float | None = None,
         previous_evaluations: dict[int, dict] | None = None,
+        screenshot_bytes: bytes | None = None,
+        screenshot_mime_type: str | None = None,
     ) -> HeuristicAnalysisResult:
         """
         Analyze page using Gemini.
@@ -42,6 +45,8 @@ class GeminiProvider(LLMProvider):
             heuristics: List of dicts with 'id', 'name', 'description'
             previous_score: Score from previous analysis (if exists)
             previous_evaluations: Previous evaluations by heuristic_id (if exists)
+            screenshot_bytes: Screenshot image bytes of the page
+            screenshot_mime_type: MIME type of the screenshot (e.g., 'image/png')
 
         Returns:
             HeuristicAnalysisResult
@@ -132,12 +137,21 @@ Você DEVE seguir estas regras ESTRITAMENTE:
             html_content=html_content,
         )
 
+        contents = [prompt]
+        if screenshot_bytes and screenshot_mime_type:
+            contents.append(
+                types.Part.from_bytes(
+                    data=screenshot_bytes,
+                    mime_type=screenshot_mime_type,
+                )
+            )
+
         # Apply rate limiting before making API call
         self.rate_limiter.wait_if_needed()
 
         response = self.client.models.generate_content(
             model=self.model,
-            contents=prompt,
+            contents=contents,
             config={
                 "response_mime_type": "application/json",
                 "response_schema": HeuristicAnalysisResult,

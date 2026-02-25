@@ -66,6 +66,8 @@ class LLMProvider(ABC):
         heuristics: list[dict],
         previous_score: float | None = None,
         previous_evaluations: dict[int, dict] | None = None,
+        screenshot_bytes: bytes | None = None,
+        screenshot_mime_type: str | None = None,
     ) -> HeuristicAnalysisResult:
         """
         Analyze a page's HTML content against provided heuristics.
@@ -76,6 +78,8 @@ class LLMProvider(ABC):
             previous_score: Score from previous analysis of the same page (if exists)
             previous_evaluations: Dict mapping heuristic_id to previous evaluation data
                                  with 'level' and 'problems' (if exists)
+            screenshot_bytes: Screenshot image bytes of the page
+            screenshot_mime_type: MIME type of the screenshot (e.g., 'image/png')
 
         Returns:
             HeuristicAnalysisResult with analysis results
