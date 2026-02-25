@@ -149,7 +149,7 @@ def analysis_create(request, project_short_id):
 
                 messages.success(
                     request,
-                    f"Análise #{analysis.short_id} criada com sucesso! "
+                    f"Análise #{analysis.sequence_number} criada com sucesso! "
                     f"O crawler está coletando os dados em background.",
                 )
             except Exception as e:
