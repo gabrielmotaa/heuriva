@@ -191,7 +191,9 @@ class PlaywrightCrawler:
                 optimized_screenshot = screenshot_bytes
                 screenshot_format = "png"
 
-            parsed_url = urlparse(url)
+            # Get the final URL after any redirects
+            final_url = self.page_instance.url
+            parsed_url = urlparse(final_url)
             path = parsed_url.path or "/"
 
             # Save to database in a separate thread
