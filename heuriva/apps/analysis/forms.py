@@ -72,6 +72,13 @@ class AnalysisCreateForm(forms.Form):
         label="Profundidade máxima de busca",
     )
 
+    respect_robots_txt = forms.BooleanField(
+        required=False,
+        initial=True,
+        label="Respeitar robots.txt",
+        help_text="Se ativado, o crawler respeitará as restrições definidas no arquivo robots.txt do site.",
+    )
+
     def _parse_paths(self, text: str) -> list[str]:
         if not text:
             return []
@@ -98,6 +105,7 @@ class AnalysisCreateForm(forms.Form):
             "time_between_requests": data.get("download_delay", 1.0),
             "agent_name": data.get("user_agent") or settings.CRAWLER_USER_AGENT,
             "search_depth": data.get("depth_limit", 2),
+            "respect_robots_txt": data.get("respect_robots_txt", True),
         }
 
         return config

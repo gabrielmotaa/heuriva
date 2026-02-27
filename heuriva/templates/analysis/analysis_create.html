@@ -95,9 +95,20 @@
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                     <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">0 = sem limite, 1 = página inicial e links diretos, 2 = dois níveis, etc.</p>
                 </div>
+            </div>
 
-                <!-- Heuristics Group -->
-                <div>
+            <!-- Robots.txt Option -->
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-start">
+                    <input type="checkbox" id="respect_robots_txt" name="respect_robots_txt" checked
+                           class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer">
+                    <label for="respect_robots_txt" class="ms-2 text-sm font-medium text-gray-900 dark:text-white cursor-pointer">Respeitar robots.txt</label>
+                </div>
+                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Se ativado, o crawler respeitará as restrições definidas no arquivo robots.txt do site.</p>
+            </div>
+
+            <!-- Heuristics Group -->
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <label for="heuristics_group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Conjunto de heurísticas</label>
                     <select id="heuristics_group" name="heuristics_group" 
                             class="bg-gray-50 border {% if form.heuristics_group.errors %}border-red-500{% else %}border-gray-300{% endif %} text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from PIL import Image
 from playwright.sync_api import TimeoutError, sync_playwright
+from protego import Protego
 
 from heuriva.apps.analysis.models import Analysis, Page
 
@@ -47,6 +48,7 @@ class PlaywrightCrawler:
         agent_name: str | None = None,
         time_between_requests: float = 1.0,
         search_depth: int = 2,
+        respect_robots_txt: bool = True,
     ):
         crawler = cls(
             analysis_id=analysis_id,
@@ -56,6 +58,7 @@ class PlaywrightCrawler:
             agent_name=agent_name,
             time_between_requests=time_between_requests,
             search_depth=search_depth,
+            respect_robots_txt=respect_robots_txt,
         )
         return crawler.run()
 
@@ -68,6 +71,7 @@ class PlaywrightCrawler:
         agent_name: str | None = None,
         time_between_requests: float = 1.0,
         search_depth: int = 2,
+        respect_robots_txt: bool = True,
     ):
         self.analysis_id = analysis_id
         self.start_url = start_url
@@ -76,12 +80,14 @@ class PlaywrightCrawler:
         self.agent_name = agent_name or settings.CRAWLER_USER_AGENT
         self.time_between_requests = time_between_requests
         self.search_depth = search_depth
+        self.respect_robots_txt = respect_robots_txt
 
         self.analysis = Analysis.objects.get(id=self.analysis_id)
         self.project = self.analysis.project
 
         parsed_start = urlparse(self.start_url)
         self.base_domain = parsed_start.netloc
+        self.base_url = f"{parsed_start.scheme}://{parsed_start.netloc}"
 
         self.queue = [(self.start_url, 0)]
         self.visited = set()
@@ -95,12 +101,37 @@ class PlaywrightCrawler:
         # Threadpool for ORM operations
         self.thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=1)
         self.page_instance = None
+        self.robots_parser = None
 
     def _should_ignore(self, path: str) -> bool:
         for p in self.ignore_paths:
             if p and path.startswith(p):
                 return True
         return False
+
+    def _is_allowed_by_robots_txt(self, url: str) -> bool:
+        """Check if URL is allowed by robots.txt rules."""
+        if not self.respect_robots_txt or self.robots_parser is None:
+            return True
+
+        return self.robots_parser.can_fetch(self.agent_name, url)
+
+    def _fetch_robots_txt(self, page):
+        """Fetch and parse robots.txt from the base URL."""
+        if not self.respect_robots_txt:
+            return
+
+        robots_url = urljoin(self.base_url, "robots.txt")
+        try:
+            response = page.goto(robots_url, wait_until="load", timeout=10000)
+            if response and response.status == 200:
+                robots_content = page.content()
+                self.robots_parser = Protego.parse(robots_content)
+                logger.info(f"Loaded robots.txt from {robots_url}")
+            else:
+                logger.info(f"No robots.txt found at {robots_url}, allowing all URLs")
+        except Exception as e:
+            logger.warning(f"Failed to fetch robots.txt: {e}, allowing all URLs")
 
     @staticmethod
     def _normalize_url(url: str) -> str:
@@ -187,7 +218,11 @@ class PlaywrightCrawler:
                         if link_norm not in self.visited and not any(
                             q[0] == link_norm for q in self.queue
                         ):
-                            self.queue.append((link_norm, current_depth + 1))
+                            # Check if URL is allowed by robots.txt before adding to queue
+                            if self._is_allowed_by_robots_txt(link_norm):
+                                self.queue.append((link_norm, current_depth + 1))
+                            else:
+                                logger.debug(f"URL blocked by robots.txt: {link_norm}")
 
         except TimeoutError:
             logger.error(f"Timeout crawling {url}")
@@ -203,6 +238,12 @@ class PlaywrightCrawler:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(user_agent=self.agent_name)
 
+            # Fetch and parse robots.txt if needed
+            if self.respect_robots_txt:
+                temp_page = context.new_page()
+                self._fetch_robots_txt(temp_page)
+                temp_page.close()
+
             while self.queue:
                 current_url, depth = self.queue.pop(0)
                 norm_url = self._normalize_url(current_url)
@@ -214,6 +255,14 @@ class PlaywrightCrawler:
                 path = parsed_current.path or "/"
 
                 if self._should_ignore(path) and norm_url not in self.enforce_urls:
+                    continue
+
+                # Check robots.txt before processing (unless it's an enforced URL)
+                if (
+                    norm_url not in self.enforce_urls
+                    and not self._is_allowed_by_robots_txt(norm_url)
+                ):
+                    logger.debug(f"URL blocked by robots.txt: {norm_url}")
                     continue
 
                 self.visited.add(norm_url)
