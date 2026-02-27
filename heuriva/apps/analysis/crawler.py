@@ -193,12 +193,15 @@ class PlaywrightCrawler:
             logger.error(f"Timeout crawling {url}")
         except Exception as e:
             logger.error(f"Error crawling {url}: {e}")
+        finally:
+            # Clean up page resources after processing
+            if self.page_instance:
+                self.page_instance.close()
 
     def run(self):
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(user_agent=self.agent_name)
-            self.page_instance = context.new_page()
 
             while self.queue:
                 current_url, depth = self.queue.pop(0)
@@ -216,6 +219,8 @@ class PlaywrightCrawler:
                 self.visited.add(norm_url)
                 logger.info(f"Crawling {norm_url} (depth: {depth})")
 
+                # Create a new page for each URL to avoid memory accumulation
+                self.page_instance = context.new_page()
                 self._process_url(norm_url, current_depth=depth, is_enforced=False)
                 time.sleep(self.time_between_requests)
 
@@ -226,6 +231,7 @@ class PlaywrightCrawler:
                     logger.info(f"Crawling enforced path: {norm_eu}")
                     self.visited.add(norm_eu)
 
+                    self.page_instance = context.new_page()
                     self._process_url(norm_eu, current_depth=0, is_enforced=True)
                     time.sleep(self.time_between_requests)
 
