@@ -299,11 +299,10 @@ def run_crawler(
             respect_robots_txt=respect_robots_txt,
         )
 
-        if crawler_result.get("status") == "error":
+        if crawler_result.status == "error":
             analysis.status = Analysis.Status.FAILED
-            analysis.error_message = crawler_result.get(
-                "message", "Unknown crawler error"
-            )
+            analysis.error_message = crawler_result.message or "Unknown crawler error"
+
             analysis.save(update_fields=["status", "error_message"])
             return crawler_result
 

@@ -1,18 +1,26 @@
 import concurrent.futures
 import logging
 import time
+from dataclasses import dataclass
 from io import BytesIO
 from urllib.parse import urljoin, urlparse
 
 from django.conf import settings
 from django.core.files.base import ContentFile
 from PIL import Image
+from playwright.sync_api import Page as PlaywrightPage
 from playwright.sync_api import TimeoutError, sync_playwright
 from protego import Protego
 
 from heuriva.apps.analysis.models import Analysis, Page
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True)
+class CrawlResult:
+    status: str
+    message: str | None = None
 
 
 def optimize_screenshot(screenshot_bytes: bytes) -> bytes:
@@ -100,8 +108,8 @@ class PlaywrightCrawler:
 
         # Threadpool for ORM operations
         self.thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=1)
-        self.page_instance = None
-        self.robots_parser = None
+        self.page_instance: PlaywrightPage | None = None
+        self.robots_parser: Protego | None = None
 
     def _should_ignore(self, path: str) -> bool:
         for p in self.ignore_paths:
@@ -116,7 +124,7 @@ class PlaywrightCrawler:
 
         return self.robots_parser.can_fetch(self.agent_name, url)
 
-    def _fetch_robots_txt(self, page):
+    def _fetch_robots_txt(self, page: PlaywrightPage) -> None:
         """Fetch and parse robots.txt from the base URL."""
         if not self.respect_robots_txt:
             return
@@ -144,7 +152,7 @@ class PlaywrightCrawler:
         html_content: str,
         screenshot: bytes | None,
         screenshot_format: str,
-    ):
+    ) -> None:
         page, _ = Page.objects.update_or_create(
             analysis=self.analysis,
             path=path,
@@ -165,7 +173,13 @@ class PlaywrightCrawler:
                     filename, ContentFile(screenshot), save=True
                 )
 
-    def _process_url(self, url: str, current_depth: int = 0, is_enforced: bool = False):
+    def _process_url(
+        self, url: str, current_depth: int = 0, is_enforced: bool = False
+    ) -> None:
+        assert self.page_instance is not None, (
+            "Page instance should be initialized before processing URLs"
+        )
+
         try:
             # Use networkidle to wait until the network is quiet
             response = self.page_instance.goto(url, wait_until="load", timeout=30000)
@@ -235,7 +249,7 @@ class PlaywrightCrawler:
             if self.page_instance:
                 self.page_instance.close()
 
-    def run(self):
+    def run(self) -> CrawlResult:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             context = browser.new_context(user_agent=self.agent_name)
@@ -290,9 +304,9 @@ class PlaywrightCrawler:
             self.thread_pool.shutdown()
 
         if not Page.objects.filter(analysis=self.analysis).exists():
-            return {
-                "status": "error",
-                "message": "Nenhuma página pôde ser acessada a partir da URL fornecida. Verifique o link e tente novamente.",
-            }
+            return CrawlResult(
+                status="error",
+                message="Nenhuma página pôde ser acessada a partir da URL fornecida. Verifique o link e tente novamente.",
+            )
 
-        return {"status": "success"}
+        return CrawlResult(status="success")
