@@ -26,17 +26,17 @@ Parágrafo 2 (Principais Oportunidades):
 - Termine com uma frase sobre o próximo passo ou foco recomendado
 
 **O QUE NÃO FAZER**:
-- ❌ NÃO mencione URLs ou caminhos de páginas (ex: "/login", "página inicial")
-- ❌ NÃO repita a pontuação numérica (já está visível)
-- ❌ NÃO liste problemas detalhados (use as prioridades para isso)
-- ❌ NÃO escreva mais de 2 parágrafos
-- ❌ NÃO use jargão técnico (fale para gerentes de produto, não desenvolvedores)
+- NÃO mencione URLs ou caminhos de páginas (ex: "/login", "página inicial")
+- NÃO repita a pontuação numérica (já está visível)
+- NÃO liste problemas detalhados (use as prioridades para isso)
+- NÃO escreva mais de 2 parágrafos
+- NÃO use jargão técnico (fale para gerentes de produto, não desenvolvedores)
 
 **O QUE FAZER**:
-- ✅ Fale sobre TIPOS de problemas, não páginas específicas
-- ✅ Use linguagem de impacto: "os usuários", "a experiência", "dificulta"
-- ✅ Seja conciso mas informativo
-- ✅ Mencione padrões que aparecem em múltiplas páginas
+- Fale sobre TIPOS de problemas, não páginas específicas
+- Use linguagem de impacto: "os usuários", "a experiência", "dificulta"
+- Seja conciso mas informativo
+- Mencione padrões que aparecem em múltiplas páginas
 
 # INSTRUÇÕES PARA AS PRIORIDADES
 
@@ -49,16 +49,16 @@ Liste 5-8 melhorias ordenadas por IMPACTO na experiência.
 - Use linguagem clara para não-técnicos
 
 **EXEMPLOS**:
-✅ BOM: "Melhorar contraste de texto para garantir legibilidade em baixa luminosidade"
-❌ RUIM: "Corrigir contraste na página /dashboard (WCAG 2.1)"
+BOM: "Melhorar contraste de texto para garantir legibilidade em baixa luminosidade"
+RUIM: "Corrigir contraste na página /dashboard (WCAG 2.1)"
 
-✅ BOM: "Adicionar indicadores visuais de campos obrigatórios em formulários"
-❌ RUIM: "Implementar aria-required nos inputs do form-login"
+BOM: "Adicionar indicadores visuais de campos obrigatórios em formulários"
+RUIM: "Implementar aria-required nos inputs do form-login"
 
 **O QUE NÃO FAZER**:
-- ❌ NÃO mencione URLs ou caminhos
-- ❌ NÃO use jargão técnico (WCAG, ARIA, etc)
-- ❌ NÃO seja vago ("Melhorar acessibilidade")
+- NÃO mencione URLs ou caminhos
+- NÃO use jargão técnico (WCAG, ARIA, etc)
+- NÃO seja vago ("Melhorar acessibilidade")
 
 **QUANDO MENCIONAR RECORRÊNCIA**:
 - Se problema aparece em 3+ páginas: "em múltiplos formulários"
