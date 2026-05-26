@@ -10,6 +10,11 @@ urlpatterns = [
     path("projects/new/", views.project_create, name="project_create"),
     path("projects/<str:short_id>/", views.project_detail, name="project_detail"),
     path("projects/<str:short_id>/edit/", views.project_update, name="project_update"),
+    path(
+        "projects/<str:short_id>/analyses-table/",
+        views.project_analyses_table,
+        name="project_analyses_table",
+    ),
     # Analysis
     path(
         "projects/<str:project_short_id>/analysis/new/",

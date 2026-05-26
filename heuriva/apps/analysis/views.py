@@ -50,6 +50,14 @@ def project_detail(request, short_id):
         status=Analysis.Status.COMPLETED
     ).first()
 
+    active_statuses = [
+        Analysis.Status.PENDING,
+        Analysis.Status.CRAWLING,
+        Analysis.Status.CRAWL_COMPLETED,
+        Analysis.Status.ANALYZING,
+    ]
+    has_active_analyses = project.analyses.filter(status__in=active_statuses).exists()
+
     return render(
         request,
         "analysis/project_detail.html",
@@ -57,6 +65,39 @@ def project_detail(request, short_id):
             "project": project,
             "analyses_page": analyses_page,
             "last_completed_analysis": last_completed_analysis,
+            "has_active_analyses": has_active_analyses,
+        },
+    )
+
+
+def project_analyses_table(request, short_id):
+    """Return the analyses table partial for polling."""
+    project = get_object_or_404(
+        Project.objects.prefetch_related("analyses__pages"),
+        short_id=short_id,
+        user=request.user,
+    )
+
+    analyses_list = project.analyses.all()
+    paginator = Paginator(analyses_list, 10)
+    page_number = request.GET.get("page")
+    analyses_page = paginator.get_page(page_number)
+
+    active_statuses = [
+        Analysis.Status.PENDING,
+        Analysis.Status.CRAWLING,
+        Analysis.Status.CRAWL_COMPLETED,
+        Analysis.Status.ANALYZING,
+    ]
+    has_active_analyses = analyses_list.filter(status__in=active_statuses).exists()
+
+    return render(
+        request,
+        "analysis/partials/analyses_table.html",
+        {
+            "project": project,
+            "analyses_page": analyses_page,
+            "has_active_analyses": has_active_analyses,
         },
     )
 
