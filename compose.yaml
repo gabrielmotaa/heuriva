@@ -36,7 +36,34 @@ services:
   worker:
     build: .
     entrypoint: []
-    command: ["celery", "-A", "heuriva", "worker", "--loglevel=info"]
+    command: ["celery", "-A", "heuriva", "worker", "--loglevel=info", "--queues=celery"]
+    env_file:
+      - .env
+    volumes:
+      - media:/app/media
+    depends_on:
+      - db
+      - web
+      - redis
+    environment:
+      SQL_HOST: db
+      SQL_PORT: 5432
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./uv.lock
+
+  crawler_worker:
+    build: .
+    entrypoint: []
+    command: ["celery", "-A", "heuriva", "worker", "--loglevel=info", "--queues=crawler", "--concurrency=1"]
     env_file:
       - .env
     volumes:

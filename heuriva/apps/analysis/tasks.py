@@ -260,7 +260,7 @@ def run_heuristic_analysis(self, analysis_id: int):
         }
 
 
-@shared_task(bind=True)
+@shared_task(bind=True, queue="crawler")
 def run_crawler(
     self,
     analysis_id: int,

@@ -117,6 +117,12 @@ LOGOUT_REDIRECT_URL = "pages:index"
 CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND", default="django-db")
 
+# Route the crawler task to its own queue so a dedicated worker with
+# concurrency=1 ensures only one Playwright instance runs at a time.
+CELERY_TASK_ROUTES = {
+    "heuriva.apps.analysis.tasks.run_crawler": {"queue": "crawler"},
+}
+
 
 # Zstandard compression level (1-22, where 5 is default)
 # Higher = better compression but slower, Lower = faster but less compression
