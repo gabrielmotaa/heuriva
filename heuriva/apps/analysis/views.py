@@ -67,9 +67,14 @@ def project_create(request):
     if request.method == "POST":
         name = request.POST.get("name")
         url = request.POST.get("url")
+        screenshot = request.FILES.get("homepage_screenshot")
 
         if name and url:
             project = Project.objects.create(name=name, url=url, user=request.user)
+
+            if screenshot:
+                project.homepage_screenshot.save(screenshot.name, screenshot, save=True)
+
             messages.success(request, "Projeto criado com sucesso!")
             return redirect("analysis:project_detail", short_id=project.short_id)
         else:
