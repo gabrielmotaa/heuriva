@@ -271,6 +271,7 @@ def run_crawler(
     time_between_requests: float = 1.0,
     search_depth: int = 2,
     respect_robots_txt: bool = True,
+    max_pages: int = 30,
 ):
     """Run the domain crawler with specified configuration using Playwright."""
     agent_name = agent_name or settings.CRAWLER_USER_AGENT
@@ -297,6 +298,7 @@ def run_crawler(
             time_between_requests=time_between_requests,
             search_depth=search_depth,
             respect_robots_txt=respect_robots_txt,
+            max_pages=max_pages,
         )
 
         if crawler_result.status == "error":

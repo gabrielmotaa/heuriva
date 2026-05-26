@@ -79,6 +79,20 @@ class AnalysisCreateForm(forms.Form):
         help_text="Se ativado, o crawler respeitará as restrições definidas no arquivo robots.txt do site.",
     )
 
+    max_pages = forms.ChoiceField(
+        choices=[
+            (10, "10 páginas"),
+            (20, "20 páginas"),
+            (30, "30 páginas"),
+            (40, "40 páginas"),
+            (50, "50 páginas"),
+        ],
+        initial=30,
+        required=True,
+        label="Máximo de páginas",
+        help_text="Número máximo de páginas a serem coletadas.",
+    )
+
     def _parse_paths(self, text: str) -> list[str]:
         if not text:
             return []
@@ -106,6 +120,7 @@ class AnalysisCreateForm(forms.Form):
             "agent_name": data.get("user_agent") or settings.CRAWLER_USER_AGENT,
             "search_depth": data.get("depth_limit", 2),
             "respect_robots_txt": data.get("respect_robots_txt", True),
+            "max_pages": int(data.get("max_pages", 30)),
         }
 
         return config

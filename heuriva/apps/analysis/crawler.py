@@ -57,6 +57,7 @@ class PlaywrightCrawler:
         time_between_requests: float = 1.0,
         search_depth: int = 2,
         respect_robots_txt: bool = True,
+        max_pages: int = 30,
     ):
         crawler = cls(
             analysis_id=analysis_id,
@@ -67,6 +68,7 @@ class PlaywrightCrawler:
             time_between_requests=time_between_requests,
             search_depth=search_depth,
             respect_robots_txt=respect_robots_txt,
+            max_pages=max_pages,
         )
         return crawler.run()
 
@@ -80,6 +82,7 @@ class PlaywrightCrawler:
         time_between_requests: float = 1.0,
         search_depth: int = 2,
         respect_robots_txt: bool = True,
+        max_pages: int = 30,
     ):
         self.analysis_id = analysis_id
         self.start_url = start_url
@@ -89,6 +92,7 @@ class PlaywrightCrawler:
         self.time_between_requests = time_between_requests
         self.search_depth = search_depth
         self.respect_robots_txt = respect_robots_txt
+        self.max_pages = max(1, max_pages)
 
         self.analysis = Analysis.objects.get(id=self.analysis_id)
         self.project = self.analysis.project
@@ -236,7 +240,8 @@ class PlaywrightCrawler:
                         ):
                             # Check if URL is allowed by robots.txt before adding to queue
                             if self._is_allowed_by_robots_txt(link_norm):
-                                self.queue.append((link_norm, current_depth + 1))
+                                if len(self.visited) + len(self.queue) < self.max_pages:
+                                    self.queue.append((link_norm, current_depth + 1))
                             else:
                                 logger.debug(f"URL blocked by robots.txt: {link_norm}")
 
@@ -261,6 +266,12 @@ class PlaywrightCrawler:
                 temp_page.close()
 
             while self.queue:
+                if len(self.visited) >= self.max_pages:
+                    logger.info(
+                        f"Reached max_pages limit ({self.max_pages}), stopping crawler"
+                    )
+                    break
+
                 current_url, depth = self.queue.pop(0)
                 norm_url = self._normalize_url(current_url)
 
